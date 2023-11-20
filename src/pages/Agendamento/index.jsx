@@ -131,7 +131,7 @@ export function Agendamento() {
 
             <Button
                 title="Salvar"
-                onClick={ e => handleAgendamento(`${description} ${service}`, selectedDate + "T17:30:00",  "2023-11-18T18:30:00")}
+                onClick={ e => handleAgendamento(` ${service}`, selectedDate + "T17:30:00",  "2023-11-18T18:30:00")}
             />
 
 
