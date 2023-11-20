@@ -31,7 +31,7 @@ export function Agendamento() {
 
     const [description, setDescription] = useState("");
     function handleClickCabeleireiro(id, name){
-        setDescription(name);
+        setDescription(id);
         // Faça o que precisar com o ID e o nome do cabeleireiro aqui
     };
 
@@ -48,10 +48,13 @@ export function Agendamento() {
         console.log(format(date, 'yyyy-MM-dd'));
     };
 
-    async function handleAgendamento(name, start, end) {
-        await api.post("/agenda",  {name, start, end} );
+    async function handleAgendamento(name, start, end, id) {
+        await api.post("/agenda",  {name, start, end, id} );
         console.log(name, start, end);
     }
+
+    const [ hora, setHora ] = useState("");
+
 
     const [horario, setHorario] = useState([]);
     //const params = useParams()
@@ -123,6 +126,7 @@ export function Agendamento() {
                             <Horarios
                                 key={h.id}
                                 horario={h.horario}
+                                onClick={e => setHora(h.horario)}
                             />
                             </SwiperSlide>
                     ))
@@ -131,8 +135,12 @@ export function Agendamento() {
 
             <Button
                 title="Salvar"
-                onClick={ e => handleAgendamento(` ${service}`, selectedDate + "T17:30:00",  "2023-11-18T18:30:00")}
-            />
+                onClick={e => {
+                    const dateTime = selectedDate ? selectedDate + "T" + hora : null; // Combina a data e o horário
+                    const endDateTime = "2023-11-20T11:40:00"; // Seu valor de endDateTime (altere conforme necessário)
+                    handleAgendamento(service, dateTime, endDateTime, description);
+                    // Use a variável "dateTime" que contém a combinação de data e horário
+                }}            />
 
 
         </Container>
