@@ -48,7 +48,7 @@ export function Services() {
                         name={service.name} 
                         value={service.value} 
                         duration={service.duration} 
-                        // iconEdit={<FiEdit/>} 
+                        iconEdit={<FiEdit/>} 
                         iconDelete={<FiTrash2 onClick={() => handleDelete(service.id)}/>}
                     />
                 ))

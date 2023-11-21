@@ -43,7 +43,7 @@ export function FullCalendarl() {
         headerToolbar={{
             left: "prev,next",
             center: "title",
-            right: "dayGridMonth,listWeek",
+            right: "listWeek",
         }}
         weekends={true}
         locale="pt-br"

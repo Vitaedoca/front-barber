@@ -9,9 +9,16 @@ import { useEffect, useState } from "react";
 import { api } from "../../services/api";
 import { format, parseISO  } from 'date-fns';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import avatarPlaceholder  from "../../assets/avatar_placeholder.svg";
+import { useAuth } from "../../hooks/auth";
 import 'swiper/css';
 
 export function Agendamento() {
+
+    const { signOut, user } = useAuth();
+    const avatarUrl = user.avatar ? `${api.defaults.baseURL}/files/${user.avatar}` : avatarPlaceholder;
+
+
     const [agendamento, setAgendamento] = useState("");
     const [services, setServices] = useState("");
 
@@ -59,14 +66,14 @@ export function Agendamento() {
     const [horario, setHorario] = useState([]);
     //const params = useParams()
 
-    useEffect(() => {
-        async function fetchHorairos() {
-            const response = await api.get("/horarios/disponiveis");
-            setHorario(response.data.horariosDisponiveis);
-        }
+        useEffect(() => {
+            async function fetchHorairos() {
+                const response = await api.get("/horarios/disponiveis");
+                setHorario(response.data.horariosDisponiveis);
+            }
 
-        fetchHorairos();
-    }, []);
+            fetchHorairos();
+        }, []);
 
     const swiperParams = {
         slidesPerView: 5,
@@ -86,6 +93,7 @@ export function Agendamento() {
                     agendamento && agendamento.map( item =>(
                         
                         <Cabeleireiro 
+                            imagem={avatarUrl}
                             key={item.id}
                             name={item.name}
                             onClick={() => handleClickCabeleireiro(item.id, item.name)}
@@ -137,9 +145,12 @@ export function Agendamento() {
                 title="Salvar"
                 onClick={e => {
                     const dateTime = selectedDate ? selectedDate + "T" + hora : null; // Combina a data e o horário
-                    const endDateTime = "2023-11-20T11:40:00"; // Seu valor de endDateTime (altere conforme necessário)
+                    const endDateTime = "2023-11-20T14:20:00"; // Seu valor de endDateTime (altere conforme necessário)
                     handleAgendamento(service, dateTime, endDateTime, description);
                     // Use a variável "dateTime" que contém a combinação de data e horário
+                    alert("Agendamento Realizado com sucesso!");
+                    location.reload();
+
                 }}            />
 
 

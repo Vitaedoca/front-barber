@@ -41,9 +41,11 @@ export function EditService() {
             await api.post("/services", {
                 name: title,
                 value: valor,
-                duration: tempo
+                duration: tempo,
+                image: files
             } )
 
+            
             alert("Serviço adicionado com sucesso!");
         }
         catch (error) {

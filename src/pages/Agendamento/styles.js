@@ -94,6 +94,10 @@ export const Profile = styled.div`
             font-style: normal;
             font-weight: 500; 
         }
+
+    div {
+        cursor: pointer;
+    }
 `;
 
 export const Service = styled.div`
@@ -102,6 +106,7 @@ export const Service = styled.div`
     > div {
         margin-top: 18px;
     }
+    cursor: pointer;
 `;
 
 

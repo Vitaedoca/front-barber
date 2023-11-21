@@ -20,6 +20,7 @@ function AuthProvider({ children }) {
       
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       setData({ user, token, isAdmin });
+      alert("LOGIN FEITO COM SUCESSO!")
       
     } catch (error) {
       console.log("deu erro");
@@ -47,7 +48,7 @@ function AuthProvider({ children }) {
       await api.put("/users", user);
       localStorage.setItem("@barbershop:user", JSON.stringify(user));
       setData({ user: user, token: data.token });
-      alert("Perfil atualizado com sucesso!")
+      alert("Perfil atualizado com sucesso!");
 
     }catch (error) {
       if(error.response) {
@@ -57,6 +58,50 @@ function AuthProvider({ children }) {
       }
     }
   }
+
+  async function updateServiceImage({ serviceId, imageFile }) {
+    try {
+      const token = localStorage.getItem("@barbershop:token");
+      if (!token) {
+        throw new Error("Token não encontrado");
+      }
+  
+      // Se houver um arquivo de imagem, envie para o servidor
+      if (imageFile) {
+        const formData = new FormData();
+        formData.append("imagem", imageFile);
+  
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        };
+  
+        const { data: { imagem } } = await api.patch(`/services/imagem/${serviceId}`, formData, config);
+  
+        // Atualize os detalhes do serviço com a nova imagem retornada pela API
+        // Supondo que 'service' seja um objeto que mantém os detalhes do serviço
+        service.imagem = imagem;
+      }
+  
+      // Atualize os detalhes do serviço (incluindo a nova imagem)
+      await api.put(`/services/${serviceId}`, service, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      alert("Imagem do serviço atualizada com sucesso!");
+    } catch (error) {
+      if (error.response) {
+        alert(error.response.data.message);
+      } else {
+        alert("Não foi possível atualizar a imagem do serviço");
+      }
+    }
+  }
+  
   
   useEffect(() => {
     const token = localStorage.getItem("@barbershop:token");
@@ -74,7 +119,7 @@ function AuthProvider({ children }) {
     
     
     return (
-      <AuthContext.Provider value={{ signIn, user: data.user, signOut, updateProfile, isAdmin: data.isAdmin }} >
+      <AuthContext.Provider value={{ signIn, user: data.user, signOut, updateProfile, updateServiceImage, isAdmin: data.isAdmin }} >
       {children}
     </AuthContext.Provider>
   )
