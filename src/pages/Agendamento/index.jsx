@@ -66,14 +66,14 @@ export function Agendamento() {
     const [horario, setHorario] = useState([]);
     //const params = useParams()
 
-        useEffect(() => {
-            async function fetchHorairos() {
-                const response = await api.get("/horarios/disponiveis");
-                setHorario(response.data.horariosDisponiveis);
-            }
+    useEffect(() => {
+        async function fetchHorairos() {
+            const response = await api.get("/horarios/disponiveis");
+            setHorario(response.data.horariosDisponiveis);
+        }
 
-            fetchHorairos();
-        }, []);
+        fetchHorairos();
+    }, []);
 
     const swiperParams = {
         slidesPerView: 5,
